@@ -1,14 +1,86 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Launchpad
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content class="card-background-page">
+<ion-grid>
+   <ion-row>
+     <ion-col>
+      <ion-card (click)="clickBeans($event)">
+        <ion-card-header>
+          BOHNEN
+        </ion-card-header>
+        <ion-card-content>
+          Verwalte Bohnen
+        </ion-card-content>
+      </ion-card>
+     </ion-col>
+     <ion-col>
+      <ion-card (click)="clickCaps($event)">
+        <ion-card-header>
+          CAPS
+        </ion-card-header>
+        <ion-card-content>
+          Verwalte Caps
+        </ion-card-content>
+      </ion-card>
+     </ion-col>
+     <ion-col>
+      <ion-card (click)="clickFilter($event)">
+        <ion-card-header>
+          FILTER
+        </ion-card-header>
+        <ion-card-content>
+          Verwalte Filterkaffee
+        </ion-card-content>
+      </ion-card>
+     </ion-col>
+     <ion-col>
+      <ion-card (click)="clickPads($event)">
+        <ion-card-header>
+          PADS
+        </ion-card-header>
+        <ion-card-content>
+          Verwalte Pads
+        </ion-card-content>
+      </ion-card>
+     </ion-col>
+   </ion-row>
+   <ion-row>
+     <ion-col col-6>
+      <ion-card>
+        <ion-card-header>
+          KUNDEN
+        </ion-card-header>
+        <ion-card-content>
+          KundenManagement
+        </ion-card-content>
+      </ion-card>       
+     </ion-col>     
+     <ion-col>
+      <ion-card>
+        <ion-card-header>
+          PADS
+        </ion-card-header>
+        <ion-card-content>
+          Verwalte Pads
+        </ion-card-content>
+      </ion-card>       
+     </ion-col>
+     <ion-col>
+      <ion-card>
+        <ion-card-header>
+          PADS
+        </ion-card-header>
+        <ion-card-content>
+          Verwalte Pads
+        </ion-card-content>
+      </ion-card>       
+     </ion-col>
+   </ion-row>
+</ion-grid>
 </ion-content>
