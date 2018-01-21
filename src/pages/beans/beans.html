@@ -6,25 +6,25 @@
         {{user}}
         <ion-icon name="contact"></ion-icon>
       </button>
-      <button ion-button id="newEntry" (click)="addEntry($event)" outline>
-        Add Entry
-        <ion-icon name="plus"></ion-icon>
-      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content class="beans">
-    <ion-refresher (ionRefresh)="doRefresh($event)">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-    <ion-list>
+  <ion-fab top right edge>
+    <button ion-fab color="vibrant" mini (click)="addEntry($event)"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+  <ion-list>
     <ion-item *ngFor="let bean of beans | async" class="list-item">
       <ion-thumbnail item-start>
-        <img src="">
+        <img src="{{bean.src}}">
       </ion-thumbnail>
       <h2>{{bean.title}}</h2>
       <p>{{bean.value}}</p>
+      <button ion-fab color="vibrant" mini (click)="deleteEntry($event)"><ion-icon name="remove"></ion-icon></button>
     </ion-item>
   </ion-list>
 </ion-content>
