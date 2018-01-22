@@ -17,14 +17,21 @@ interface Bean {
 export class BeansSite {
 
   beansCol: AngularFirestoreCollection<Bean>;
-  beans: Observable<Bean[]>;
+  beans: any;
 
   title: string;
   value: number;
 
   constructor(public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
     this.beansCol = this.afs.collection<Bean>('beans');
-    this.beans = this.beansCol.valueChanges();
+    this.beans = this.beansCol.snapshotChanges()
+                        .map(actions => {
+                            return actions.map(a => {
+                              const data = a.payload.doc.data() as Bean;
+                              const id = a.payload.doc.id;
+                              return {id, data};
+                            })
+                          })
     //const groceryListRef = this.fireStore.collection<Grocery>(`/groceryList`);
   }
 
@@ -65,8 +72,8 @@ export class BeansSite {
     console.log('Saved Bean in Firestore: ' + title);
   }
 
-  deleteEntry() {
-    
+  deleteEntry(id) {
+    this.afs.doc('beans/'+id).delete();
   }
 
 }
