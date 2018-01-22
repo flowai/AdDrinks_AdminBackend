@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { BeansSite } from '../beans/beans';
+import { CapsSite } from '../caps/caps';
 
 @Component({
   selector: 'page-home',
@@ -17,7 +18,7 @@ export class HomePage {
   }
 
   clickCaps(event) {
-
+    this.navCtrl.push(CapsSite);
   }
 
 }

@@ -12,12 +12,14 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { BeansSite } from '../pages/beans/beans';
+import { CapsSite } from '../pages/caps/caps';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    BeansSite
+    BeansSite,
+    CapsSite
   ],
   imports: [
     BrowserModule,
@@ -30,7 +32,8 @@ import { BeansSite } from '../pages/beans/beans';
   entryComponents: [
     MyApp,
     HomePage,
-    BeansSite
+    BeansSite,
+    CapsSite
   ],
   providers: [
     StatusBar,

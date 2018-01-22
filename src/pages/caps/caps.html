@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>CAPS</ion-title>
+    <ion-buttons start>
+      <button  ion-button id="user" outline>
+        {{user}}
+        <ion-icon name="contact"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="caps">
+  <ion-fab top right edge>
+    <button ion-fab color="vibrant" mini (click)="addEntry($event)"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+  <ion-list>
+    <ion-item *ngFor="let cap of caps | async" class="list-item">
+      <ion-thumbnail item-start>
+        <img src="{{cap.data.src}}">
+      </ion-thumbnail>
+      <h2>{{cap.data.title}}</h2>
+      <p>{{cap.data.value}}</p>
+      <button ion-fab color="vibrant" mini (click)="deleteEntry(cap.id)"><ion-icon name="remove"></ion-icon></button>
+    </ion-item>
+  </ion-list>
+</ion-content>
