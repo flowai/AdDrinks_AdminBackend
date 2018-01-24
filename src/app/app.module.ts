@@ -13,13 +13,17 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { BeansSite } from '../pages/beans/beans';
 import { CapsSite } from '../pages/caps/caps';
+import { LoginPage } from '../pages/login/login';
+
+import { AuthService } from '../auth/auth.service';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     BeansSite,
-    CapsSite
+    CapsSite,
+    LoginPage
   ],
   imports: [
     BrowserModule,
@@ -33,9 +37,11 @@ import { CapsSite } from '../pages/caps/caps';
     MyApp,
     HomePage,
     BeansSite,
-    CapsSite
+    CapsSite,
+    LoginPage
   ],
   providers: [
+    AuthService,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
