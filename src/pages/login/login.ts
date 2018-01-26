@@ -20,6 +20,7 @@ export class LoginPage {
   user = {} as User;
 
   constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
+    console.log('Login Page loading...');
   }
 
   async loginUser(user: User) {

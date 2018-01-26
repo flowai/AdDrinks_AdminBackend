@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { AlertController } from 'ionic-angular';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 interface Bean {
   title: string;
@@ -16,13 +17,15 @@ interface Bean {
 })
 export class BeansSite {
 
+  email: string;
+
   beansCol: AngularFirestoreCollection<Bean>;
   beans: any;
 
   title: string;
   value: number;
 
-  constructor(public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
+  constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
     this.beansCol = this.afs.collection<Bean>('beans');
     this.beans = this.beansCol.snapshotChanges()
                         .map(actions => {
@@ -33,6 +36,11 @@ export class BeansSite {
                             })
                           })
     //const groceryListRef = this.fireStore.collection<Grocery>(`/groceryList`);
+  }
+
+  ionViewWillLoad() {
+    this.email = this.afAuth.auth.currentUser.email;
+    console.log(this.email);
   }
 
   addEntry(event) {

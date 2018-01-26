@@ -13,6 +13,8 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { BeansSite } from '../pages/beans/beans';
 import { CapsSite } from '../pages/caps/caps';
+import { CoffeeSite } from '../pages/coffee/coffee';
+import { PadsSite } from '../pages/pads/pads';
 import { LoginPage } from '../pages/login/login';
 
 import { AuthService } from '../auth/auth.service';
@@ -23,6 +25,8 @@ import { AuthService } from '../auth/auth.service';
     HomePage,
     BeansSite,
     CapsSite,
+    CoffeeSite,
+    PadsSite,
     LoginPage
   ],
   imports: [
@@ -38,6 +42,8 @@ import { AuthService } from '../auth/auth.service';
     HomePage,
     BeansSite,
     CapsSite,
+    CoffeeSite,
+    PadsSite,
     LoginPage
   ],
   providers: [

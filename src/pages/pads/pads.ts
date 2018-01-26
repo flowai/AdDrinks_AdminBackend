@@ -5,32 +5,32 @@ import { Observable } from 'rxjs/Observable';
 import { AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-interface Cap {
+interface Pad {
   title: string;
   value: number;
   src: string;
 }
 
 @Component({
-  selector: 'page-caps',
-  templateUrl: 'caps.html'
+  selector: 'page-pads',
+  templateUrl: 'pads.html'
 })
-export class CapsSite {
+export class PadsSite {
 
   email: string;
 
-  capsCol: AngularFirestoreCollection<Cap>;
-  caps: any;
+  padsCol: AngularFirestoreCollection<Pad>;
+  pads: any;
 
   title: string;
   value: number;
 
   constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
-    this.capsCol = this.afs.collection<Cap>('caps');
-    this.caps = this.capsCol.snapshotChanges()
+    this.padsCol = this.afs.collection<Pad>('pads');
+    this.pads = this.padsCol.snapshotChanges()
                         .map(actions => {
                             return actions.map(a => {
-                              const data = a.payload.doc.data() as Cap;
+                              const data = a.payload.doc.data() as Pad;
                               const id = a.payload.doc.id;
                               return {id, data};
                             })
@@ -45,7 +45,7 @@ export class CapsSite {
 
   addEntry(event) {
     let alert = this.alertCtrl.create({
-      title: 'Neuer Eintrag (Caps)',
+      title: 'Neuer Eintrag (Pads)',
       inputs: [{
         name: 'Sorte',
         placeholder: 'Sorte'
@@ -60,14 +60,14 @@ export class CapsSite {
         {
           text: 'Abbrechen',
           handler: data => {
-            console.log('Cancel new Cap');
+            console.log('Cancel new Pad');
           }
         },
         {
           text: 'Speichern',
           handler: data => {
             this.addPost(data.Sorte, data.Anzahl, data.Link);
-            console.log('Saved Cap');
+            console.log('Saved Pad');
           }
         }
       ]
@@ -76,12 +76,12 @@ export class CapsSite {
   }
 
   addPost(title: string, value: number, src: string) {
-    this.capsCol.add({'title': title, 'value': value, 'src': src});
-    console.log('Saved Cap in Firestore: ' + title);
+    this.padsCol.add({'title': title, 'value': value, 'src': src});
+    console.log('Saved Pad in Firestore: ' + title);
   }
 
   deleteEntry(id) {
-    this.afs.doc('caps/'+id).delete();
+    this.afs.doc('pads/'+id).delete();
   }
 
 }

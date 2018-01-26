@@ -5,32 +5,32 @@ import { Observable } from 'rxjs/Observable';
 import { AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-interface Cap {
+interface Coffee {
   title: string;
   value: number;
   src: string;
 }
 
 @Component({
-  selector: 'page-caps',
-  templateUrl: 'caps.html'
+  selector: 'page-coffee',
+  templateUrl: 'coffee.html'
 })
-export class CapsSite {
+export class CoffeeSite {
 
   email: string;
 
-  capsCol: AngularFirestoreCollection<Cap>;
-  caps: any;
+  coffeeCol: AngularFirestoreCollection<Coffee>;
+  coffees: any;
 
   title: string;
   value: number;
 
   constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
-    this.capsCol = this.afs.collection<Cap>('caps');
-    this.caps = this.capsCol.snapshotChanges()
+    this.coffeeCol = this.afs.collection<Coffee>('coffee');
+    this.coffees = this.coffeeCol.snapshotChanges()
                         .map(actions => {
                             return actions.map(a => {
-                              const data = a.payload.doc.data() as Cap;
+                              const data = a.payload.doc.data() as Coffee;
                               const id = a.payload.doc.id;
                               return {id, data};
                             })
@@ -45,7 +45,7 @@ export class CapsSite {
 
   addEntry(event) {
     let alert = this.alertCtrl.create({
-      title: 'Neuer Eintrag (Caps)',
+      title: 'Neuer Eintrag (Kaffee)',
       inputs: [{
         name: 'Sorte',
         placeholder: 'Sorte'
@@ -60,14 +60,14 @@ export class CapsSite {
         {
           text: 'Abbrechen',
           handler: data => {
-            console.log('Cancel new Cap');
+            console.log('Cancel new Coffee');
           }
         },
         {
           text: 'Speichern',
           handler: data => {
             this.addPost(data.Sorte, data.Anzahl, data.Link);
-            console.log('Saved Cap');
+            console.log('Saved Coffee');
           }
         }
       ]
@@ -76,12 +76,12 @@ export class CapsSite {
   }
 
   addPost(title: string, value: number, src: string) {
-    this.capsCol.add({'title': title, 'value': value, 'src': src});
-    console.log('Saved Cap in Firestore: ' + title);
+    this.coffeeCol.add({'title': title, 'value': value, 'src': src});
+    console.log('Saved Coffee in Firestore: ' + title);
   }
 
   deleteEntry(id) {
-    this.afs.doc('caps/'+id).delete();
+    this.afs.doc('coffee/'+id).delete();
   }
 
 }

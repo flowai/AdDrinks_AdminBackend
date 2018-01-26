@@ -3,6 +3,11 @@
     <ion-title>
       Launchpad
     </ion-title>
+    <ion-buttons start>
+      <button  ion-button id="user" outline>
+        {{email}}
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -30,9 +35,9 @@
       </ion-card>
      </ion-col>
      <ion-col>
-      <ion-card (click)="clickFilter($event)">
+      <ion-card (click)="clickCoffee($event)">
         <ion-card-header>
-          FILTER
+          KAFFEE
         </ion-card-header>
         <ion-card-content>
           Verwalte Filterkaffee
@@ -54,30 +59,30 @@
      <ion-col col-6>
       <ion-card>
         <ion-card-header>
-          KUNDEN
+          BESTELLUNGEN
         </ion-card-header>
         <ion-card-content>
-          KundenManagement
+          OFFENE BESTELLUNGEN {{Anzahl}}
         </ion-card-content>
       </ion-card>       
      </ion-col>     
      <ion-col>
       <ion-card>
         <ion-card-header>
-          PADS
+          ABONNEMENTS
         </ion-card-header>
         <ion-card-content>
-          Verwalte Pads
+          Abonnementklassen
         </ion-card-content>
       </ion-card>       
      </ion-col>
      <ion-col>
       <ion-card>
         <ion-card-header>
-          PADS
+          Nutzer
         </ion-card-header>
         <ion-card-content>
-          Verwalte Pads
+          Nutzermanagement
         </ion-card-content>
       </ion-card>       
      </ion-col>
