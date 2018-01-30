@@ -5,6 +5,7 @@ import { CapsSite } from '../caps/caps';
 import { CoffeeSite } from '../coffee/coffee';
 import { PadsSite } from '../pads/pads';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { PartnerSite } from '../partner/partner';
 
 @Component({
   selector: 'page-home',
@@ -49,6 +50,10 @@ export class HomePage {
 
   clickPads(event) {
     this.navCtrl.push(PadsSite);
+  }
+
+  clickPartner(event) {
+    this.navCtrl.push(PartnerSite);
   }
 
   getEmail(email) {

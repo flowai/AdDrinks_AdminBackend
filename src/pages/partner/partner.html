@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>PARTNER</ion-title>
+    <ion-buttons start>
+      <button  ion-button id="user" outline>
+        {{email}}
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="partner">
+  <ion-fab top right edge>
+    <button ion-fab color="vibrant" mini (click)="addEntry($event)"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+  <ion-list>
+    <ion-item-sliding *ngFor="let partner of partners | async">
+      <ion-item  >
+        <ion-card class="list-item">
+          <img src="{{partner.data.logo}}"/>
+          <ion-card-content>
+            <ion-card-title>
+              {{partner.data.companyname}}
+            </ion-card-title>
+            <p>
+              Straße: {{partner.data.companyaddress.street}} {{partner.data.companyaddress.number}}
+            </p>
+            <p>
+              Postleitzahl: {{partner.data.companyaddress.zipcode}}
+            </p>
+            <p>
+              Stadt: {{partner.data.companyaddress.city}}
+            </p>
+          </ion-card-content>
+          <button ion-fab color="vibrant" mini (click)="deleteEntry(cap.id)"><ion-icon name="remove"></ion-icon></button> 
+        </ion-card>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
