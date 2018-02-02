@@ -6,6 +6,7 @@ import { AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 interface Bean {
+  manufacturer: string;
   title: string;
   value: number;
   src: string;
@@ -32,10 +33,10 @@ export class BeansSite {
                             return actions.map(a => {
                               const data = a.payload.doc.data() as Bean;
                               const id = a.payload.doc.id;
+                              //const manu = this.afs.doc('data.manufacturer.path');
                               return {id, data};
                             })
                           })
-    //const groceryListRef = this.fireStore.collection<Grocery>(`/groceryList`);
   }
 
   ionViewWillLoad() {
@@ -66,19 +67,20 @@ export class BeansSite {
         {
           text: 'Speichern',
           handler: data => {
-            this.addPost(data.Sorte, data.Anzahl, data.Link);
+            //this.addPost(data.Sorte, data.Anzahl, data.Link);
             console.log('Saved Bean');
           }
         }
       ]
     });
+    
     alert.present();
   }
 
-  addPost(title: string, value: number, src: string) {
+/*  addPost(title: string, value: number, src: string) {
     this.beansCol.add({'title': title, 'value': value, 'src': src});
     console.log('Saved Bean in Firestore: ' + title);
-  }
+  }*/
 
   deleteEntry(id) {
     this.afs.doc('beans/'+id).delete();

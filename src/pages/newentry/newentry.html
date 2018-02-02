@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>NEUER EINTRAG</ion-title>
+    <ion-buttons start>
+      <button  ion-button id="user" outline>
+        {{email}}
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="newentry">
+  <ion-item>
+    <ion-label>Firma</ion-label>
+    <ion-select [(ngModel)]="selectedRef" okText="Auswahl" cancelText="Abbruch">
+      <ion-option *ngFor="let r of ref | async" [value]="r.id">{{r.data.companyname}}</ion-option>
+    </ion-select> 
+  </ion-item>
+</ion-content>

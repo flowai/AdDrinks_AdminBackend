@@ -19,6 +19,7 @@ import { LoginPage } from '../pages/login/login';
 
 import { AuthService } from '../auth/auth.service';
 import { PartnerSite } from '../pages/partner/partner';
+import { NewEntrySite } from '../pages/newentry/newentry';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { PartnerSite } from '../pages/partner/partner';
     CoffeeSite,
     PadsSite,
     PartnerSite,
+    NewEntrySite,
     LoginPage
   ],
   imports: [
@@ -47,6 +49,7 @@ import { PartnerSite } from '../pages/partner/partner';
     CoffeeSite,
     PadsSite,
     PartnerSite,
+    NewEntrySite,
     LoginPage
   ],
   providers: [

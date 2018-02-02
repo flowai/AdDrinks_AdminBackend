@@ -1,23 +1,17 @@
-page-partner {
+page-newentry {
 
-.partner {
+.newentry {
 
   ion-list {
     position: relative;
     text-align: center;
+    height: 200px;
     color: #0085ff;
-  }
-  
-  .item {
-    position: center;
   }
 
   .list-item {
-      position: center;
       text-align: center;
       font-weight: bold;
-      height: auto;
-      width: 400px;
   }
 }
 
