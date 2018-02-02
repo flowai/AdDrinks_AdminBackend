@@ -16,6 +16,14 @@ interface Manufacturer {
     logo: string; 
 }
 
+interface Product {
+    manufacturer: string;
+    src: string;
+    title: string;
+    value: number;
+    type: string;
+}
+
 @Component({
   selector: 'page-newentry',
   templateUrl: 'newentry.html'
@@ -23,10 +31,13 @@ interface Manufacturer {
 export class NewEntrySite {
 
   email: string;
+  newEntry = {} as Product;
 
   manu: AngularFirestoreCollection<Manufacturer>;
   ref: any;
-  selectedRef: any;
+
+  products: AngularFirestoreCollection<Product>;
+  productTypes: any;
 
   title: string;
   value: number;
@@ -48,10 +59,34 @@ export class NewEntrySite {
     console.log(this.email);
   }
 
+  changedValueReference() {
+    console.log("Reference: " + this.newEntry.manufacturer);
 
- /* addPost(manufacturer: string, title: string, value: number, src: string) {
-    this.beansCol.add({'manufacturer': manufacturer, 'title': title, 'value': value, 'src': src});
-    console.log('Saved Bean in Firestore: ' + title);
-  }*/
+    this.products = this.afs.collection<Product>('products');
+    this.productTypes = this.products.ref.orderBy('type')
+                          .get()
+                          .then(querySnapshot => {
+                            const types = [];
+
+                            querySnapshot.forEach(doc =>{
+                              if(types.indexOf(doc.data().type) == -1) {
+                                types.push(doc.data().type);
+                              }
+                            })
+
+                            console.log("productTypes:" + types);
+                            return types;
+                          })
+                          .catch(err => console.log(err))
+  }
+
+  changedValueProduct() {
+    console.log("Product: " + this.newEntry.type);
+  }
+
+  createNewEntry(product: Product) {
+    this.products.add(product);
+    console.log('Saved Bean in Firestore: ' + product.title);
+  }
 
 }

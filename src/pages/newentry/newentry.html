@@ -9,11 +9,31 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content class="newentry">
+<ion-content padding class="newentry">
   <ion-item>
     <ion-label>Firma</ion-label>
-    <ion-select [(ngModel)]="selectedRef" okText="Auswahl" cancelText="Abbruch">
-      <ion-option *ngFor="let r of ref | async" [value]="r.id">{{r.data.companyname}}</ion-option>
+    <ion-select [(ngModel)]="newEntry.manufacturer" (ionChange)="changedValueReference()" okText="Auswahl" cancelText="Abbruch">
+      <ion-option *ngFor="let r of ref | async" value="partner/{{r.id}}">{{r.data.companyname}}</ion-option>
     </ion-select> 
   </ion-item>
+  <ion-item>
+    <ion-label>Produkt</ion-label>
+    <ion-select [(ngModel)]="newEntry.type" (ionChange)="changedValueProduct()" okText="Auswahl" cancelText="Abbruch">
+      <ion-option *ngFor="let pt of productTypes | async" [value]="pt">{{pt}}</ion-option>
+    </ion-select> 
+  </ion-item>
+  <ion-item>
+    <ion-label fixed>Produktname</ion-label>
+    <ion-input type="text" [(ngModel)]="newEntry.title"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label fixed>Anzahl auf Lager</ion-label>
+    <ion-input type="text" [(ngModel)]="newEntry.value"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label fixed>Link zu Bild</ion-label>
+    <ion-input type="text" [(ngModel)]="newEntry.src"></ion-input>
+  </ion-item>  
+
+  <button ion-button (click)="createNewEntry(newEntry)">Neues Produkt anlegen</button>
 </ion-content>
