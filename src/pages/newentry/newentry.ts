@@ -22,7 +22,13 @@ interface Product {
     title: string;
     value: number;
     type: string;
+    manufacturerName: string;
 }
+
+interface Type {
+  type: string;
+}
+
 
 @Component({
   selector: 'page-newentry',
@@ -32,12 +38,14 @@ export class NewEntrySite {
 
   email: string;
   newEntry = {} as Product;
+  helperManu: any;
 
   manu: AngularFirestoreCollection<Manufacturer>;
   ref: any;
 
   products: AngularFirestoreCollection<Product>;
-  productTypes: any;
+  productTypes: AngularFirestoreCollection<Type>;
+  productTypeValues: any;
 
   title: string;
   value: number;
@@ -52,6 +60,8 @@ export class NewEntrySite {
                             return {id, data};
                           })
                         })
+    this.loadProductTypes();
+
   }
 
   ionViewWillLoad() {
@@ -60,24 +70,12 @@ export class NewEntrySite {
   }
 
   changedValueReference() {
-    console.log("Reference: " + this.newEntry.manufacturer);
+    console.log("Reference: " + this.helperManu.id + ", Name: " + this.helperManu.data.companyname);
 
-    this.products = this.afs.collection<Product>('products');
-    this.productTypes = this.products.ref.orderBy('type')
-                          .get()
-                          .then(querySnapshot => {
-                            const types = [];
+    this.newEntry.manufacturer = this.helperManu.id;
+    this.newEntry.manufacturerName = this.helperManu.data.companyname;
 
-                            querySnapshot.forEach(doc =>{
-                              if(types.indexOf(doc.data().type) == -1) {
-                                types.push(doc.data().type);
-                              }
-                            })
-
-                            console.log("productTypes:" + types);
-                            return types;
-                          })
-                          .catch(err => console.log(err))
+    this.loadProductTypes();
   }
 
   changedValueProduct() {
@@ -89,4 +87,32 @@ export class NewEntrySite {
     console.log('Saved Bean in Firestore: ' + product.title);
   }
 
+  loadProductTypes() {
+    this.productTypes = this.afs.collection<Type>('productTypes');
+    this.productTypeValues = this.productTypes.snapshotChanges()
+                    .map(actions => {
+                      return actions.map(a => {
+                        const data = a.payload.doc.data() as Type;
+                        const id = a.payload.doc.id;
+                        return {id, data};
+                      })
+                    })
+  }
+
+     /* this.products = this.afs.collection<Product>('products');    
+    this.productTypes = this.products.ref.orderBy('type')
+                  .get()
+                  .then(querySnapshot => {
+                    const types = ["PADS", "CAPS", "BEANS", "COFFEE"];
+
+                    querySnapshot.forEach(doc =>{
+                      if(types.indexOf(doc.data().type) == -1) {
+                        types.push(doc.data().type);
+                      }
+                    })
+
+                    console.log("productTypes:" + types);
+                    return types;
+                  })
+                  .catch(err => console.log(err))*/
 }

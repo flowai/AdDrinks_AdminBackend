@@ -5,11 +5,13 @@ import { Observable } from 'rxjs/Observable';
 import { AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-interface Bean {
+interface Product {
   manufacturer: string;
+  src: string;
   title: string;
   value: number;
-  src: string;
+  type: string;
+  manufacturerName: string;
 }
 
 @Component({
@@ -20,18 +22,18 @@ export class BeansSite {
 
   email: string;
 
-  beansCol: AngularFirestoreCollection<Bean>;
+  beansCol: AngularFirestoreCollection<Product>;
   beans: any;
 
   title: string;
   value: number;
 
   constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
-    this.beansCol = this.afs.collection<Bean>('beans');
+    this.beansCol = this.afs.collection<Product>('products', ref => ref.where('type', '==', 'BEANS'));
     this.beans = this.beansCol.snapshotChanges()
                         .map(actions => {
                             return actions.map(a => {
-                              const data = a.payload.doc.data() as Bean;
+                              const data = a.payload.doc.data() as Product;
                               const id = a.payload.doc.id;
                               //const manu = this.afs.doc('data.manufacturer.path');
                               return {id, data};
@@ -44,7 +46,7 @@ export class BeansSite {
     console.log(this.email);
   }
 
-  addEntry(event) {
+  /*addEntry(event) {
     let alert = this.alertCtrl.create({
       title: 'Neuer Eintrag (Bohnen)',
       inputs: [{
@@ -75,7 +77,7 @@ export class BeansSite {
     });
     
     alert.present();
-  }
+  }*/
 
 /*  addPost(title: string, value: number, src: string) {
     this.beansCol.add({'title': title, 'value': value, 'src': src});

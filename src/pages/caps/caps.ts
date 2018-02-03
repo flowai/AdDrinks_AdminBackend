@@ -5,10 +5,13 @@ import { Observable } from 'rxjs/Observable';
 import { AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-interface Cap {
+interface Product {
+  manufacturer: string;
+  src: string;
   title: string;
   value: number;
-  src: string;
+  type: string;
+  manufacturerName: string;
 }
 
 @Component({
@@ -19,23 +22,22 @@ export class CapsSite {
 
   email: string;
 
-  capsCol: AngularFirestoreCollection<Cap>;
+  capsCol: AngularFirestoreCollection<Product>;
   caps: any;
 
   title: string;
   value: number;
 
   constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
-    this.capsCol = this.afs.collection<Cap>('caps');
+    this.capsCol = this.afs.collection<Product>('products', ref => ref.where('type', '==', 'CAPS'));
     this.caps = this.capsCol.snapshotChanges()
                         .map(actions => {
                             return actions.map(a => {
-                              const data = a.payload.doc.data() as Cap;
+                              const data = a.payload.doc.data() as Product;
                               const id = a.payload.doc.id;
                               return {id, data};
                             })
                           })
-    //const groceryListRef = this.fireStore.collection<Grocery>(`/groceryList`);
   }
 
   ionViewWillLoad() {
@@ -43,7 +45,7 @@ export class CapsSite {
     console.log(this.email);
   }
 
-  addEntry(event) {
+  /*addEntry(event) {
     let alert = this.alertCtrl.create({
       title: 'Neuer Eintrag (Caps)',
       inputs: [{
@@ -73,12 +75,12 @@ export class CapsSite {
       ]
     });
     alert.present();
-  }
+  }*/
 
-  addPost(title: string, value: number, src: string) {
+  /*addPost(title: string, value: number, src: string) {
     this.capsCol.add({'title': title, 'value': value, 'src': src});
     console.log('Saved Cap in Firestore: ' + title);
-  }
+  }*/
 
   deleteEntry(id) {
     this.afs.doc('caps/'+id).delete();

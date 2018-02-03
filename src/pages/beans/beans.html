@@ -10,9 +10,9 @@
 </ion-header>
 
 <ion-content class="beans">
-  <ion-fab top right edge>
+  <!-- <ion-fab top right edge>
     <button ion-fab color="vibrant" mini (click)="addEntry($event)"><ion-icon name="add"></ion-icon></button>
-  </ion-fab>
+  </ion-fab> -->
   <ion-list>
     <ion-item *ngFor="let bean of beans | async" class="list-item">
       <ion-thumbnail item-start>
@@ -20,7 +20,7 @@
       </ion-thumbnail>
       <h2>{{bean.data.title}}</h2>
       <p>{{bean.data.value}}</p>
-      <p>{{bean.manu.data.companyname}}</p>
+      <p>{{bean.data.manufacturerName}}</p>
       <button ion-fab color="vibrant" mini (click)="deleteEntry(bean.id)"><ion-icon name="remove"></ion-icon></button>
     </ion-item>
   </ion-list>

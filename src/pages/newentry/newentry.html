@@ -9,19 +9,19 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding class="newentry">
+<ion-content padding class="newentry">     
   <ion-item>
     <ion-label>Firma</ion-label>
-    <ion-select [(ngModel)]="newEntry.manufacturer" (ionChange)="changedValueReference()" okText="Auswahl" cancelText="Abbruch">
-      <ion-option *ngFor="let r of ref | async" value="partner/{{r.id}}">{{r.data.companyname}}</ion-option>
+      <ion-select [(ngModel)]="helperManu" (ionChange)="changedValueReference()" okText="Auswahl" cancelText="Abbruch">
+      <ion-option *ngFor="let r of ref | async" [value]="r">{{r.data.companyname}}</ion-option>
     </ion-select> 
   </ion-item>
   <ion-item>
-    <ion-label>Produkt</ion-label>
-    <ion-select [(ngModel)]="newEntry.type" (ionChange)="changedValueProduct()" okText="Auswahl" cancelText="Abbruch">
-      <ion-option *ngFor="let pt of productTypes | async" [value]="pt">{{pt}}</ion-option>
-    </ion-select> 
-  </ion-item>
+        <ion-label>Produkt</ion-label>
+        <ion-select [(ngModel)]="newEntry.type" (ionChange)="changedValueProduct()" okText="Auswahl" cancelText="Abbruch">
+          <ion-option *ngFor="let pt of productTypeValues | async" [value]="pt.data.type">{{pt.data.type}}</ion-option>
+        </ion-select> 
+      </ion-item>     
   <ion-item>
     <ion-label fixed>Produktname</ion-label>
     <ion-input type="text" [(ngModel)]="newEntry.title"></ion-input>

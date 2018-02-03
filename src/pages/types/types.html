@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>PRODUKT TYPEN</ion-title>
+    <ion-buttons start>
+      <button  ion-button id="user" outline>
+        {{email}}
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="types">     
+    <ion-list>
+        <ion-item *ngFor="let type of productTypes | async" class="list-item">
+          <h2>{{type.data.type}}</h2>
+          <!-- <button ion-fab color="vibrant" mini (click)="deleteEntry(type.id)"><ion-icon name="remove"></ion-icon></button> -->
+        </ion-item>
+        <button ion-button icon-only (click)="addType()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+      </ion-list>
+</ion-content>

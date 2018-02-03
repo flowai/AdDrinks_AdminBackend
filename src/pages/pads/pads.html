@@ -10,9 +10,9 @@
 </ion-header>
 
 <ion-content class="pads">
-  <ion-fab top right edge>
+  <!-- <ion-fab top right edge>
     <button ion-fab color="vibrant" mini (click)="addEntry($event)"><ion-icon name="add"></ion-icon></button>
-  </ion-fab>
+  </ion-fab> -->
   <ion-list>
     <ion-item *ngFor="let pad of pads | async" class="list-item">
       <ion-thumbnail item-start>
@@ -20,6 +20,7 @@
       </ion-thumbnail>
       <h2>{{pad.data.title}}</h2>
       <p>{{pad.data.value}}</p>
+      <p>{{pad.data.manufacturerName}}</p>
       <button ion-fab color="vibrant" mini (click)="deleteEntry(pad.id)"><ion-icon name="remove"></ion-icon></button>
     </ion-item>
   </ion-list>

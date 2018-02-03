@@ -15,11 +15,12 @@ import { BeansSite } from '../pages/beans/beans';
 import { CapsSite } from '../pages/caps/caps';
 import { CoffeeSite } from '../pages/coffee/coffee';
 import { PadsSite } from '../pages/pads/pads';
+import { NewEntrySite } from '../pages/newentry/newentry';
+import { TypesSite } from '../pages/types/types';
 import { LoginPage } from '../pages/login/login';
 
 import { AuthService } from '../auth/auth.service';
 import { PartnerSite } from '../pages/partner/partner';
-import { NewEntrySite } from '../pages/newentry/newentry';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { NewEntrySite } from '../pages/newentry/newentry';
     PadsSite,
     PartnerSite,
     NewEntrySite,
+    TypesSite,
     LoginPage
   ],
   imports: [
@@ -50,6 +52,7 @@ import { NewEntrySite } from '../pages/newentry/newentry';
     PadsSite,
     PartnerSite,
     NewEntrySite,
+    TypesSite,
     LoginPage
   ],
   providers: [

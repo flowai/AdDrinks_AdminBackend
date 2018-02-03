@@ -7,6 +7,7 @@ import { PadsSite } from '../pads/pads';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { PartnerSite } from '../partner/partner';
 import { NewEntrySite } from '../newentry/newentry';
+import { TypesSite } from '../types/types';
 
 @Component({
   selector: 'page-home',
@@ -59,6 +60,10 @@ export class HomePage {
 
   clickNewEntry(event) {
     this.navCtrl.push(NewEntrySite);
+  }
+
+  clickType(event) {
+    this.navCtrl.push(TypesSite);
   }
 
   getEmail(email) {

@@ -5,10 +5,13 @@ import { Observable } from 'rxjs/Observable';
 import { AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-interface Pad {
+interface Product {
+  manufacturer: string;
+  src: string;
   title: string;
   value: number;
-  src: string;
+  type: string;
+  manufacturerName: string;
 }
 
 @Component({
@@ -19,18 +22,18 @@ export class PadsSite {
 
   email: string;
 
-  padsCol: AngularFirestoreCollection<Pad>;
+  padsCol: AngularFirestoreCollection<Product>;
   pads: any;
 
   title: string;
   value: number;
 
   constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
-    this.padsCol = this.afs.collection<Pad>('pads');
+    this.padsCol = this.afs.collection<Product>('products', ref => ref.where('type', '==', 'PADS'));
     this.pads = this.padsCol.snapshotChanges()
                         .map(actions => {
                             return actions.map(a => {
-                              const data = a.payload.doc.data() as Pad;
+                              const data = a.payload.doc.data() as Product;
                               const id = a.payload.doc.id;
                               return {id, data};
                             })
@@ -43,7 +46,7 @@ export class PadsSite {
     console.log(this.email);
   }
 
-  addEntry(event) {
+  /*addEntry(event) {
     let alert = this.alertCtrl.create({
       title: 'Neuer Eintrag (Pads)',
       inputs: [{
@@ -78,7 +81,7 @@ export class PadsSite {
   addPost(title: string, value: number, src: string) {
     this.padsCol.add({'title': title, 'value': value, 'src': src});
     console.log('Saved Pad in Firestore: ' + title);
-  }
+  }*/
 
   deleteEntry(id) {
     this.afs.doc('pads/'+id).delete();
