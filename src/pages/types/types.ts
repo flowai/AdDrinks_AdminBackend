@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { AlertController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthService } from './../../auth/auth.service';
+import { LoginPage } from '../login/login';
 
 interface Type {
     type: string;
@@ -22,7 +23,7 @@ export class TypesSite {
   title: string;
   value: number;
 
-  constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
+  constructor(public authService: AuthService, private afAuth: AngularFireAuth, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
     this.types = this.afs.collection<Type>('productTypes');
     this.productTypes = this.types.snapshotChanges()
                         .map(actions => {
@@ -33,6 +34,12 @@ export class TypesSite {
                           })
                         })
 
+  }
+
+  //Do not enter Page if not logged in
+  ionViewCanEnter() {
+    console.log("check if view can be entered");
+    return (this.afAuth.auth.currentUser != null);
   }
 
   ionViewWillLoad() {
@@ -73,5 +80,11 @@ export class TypesSite {
   addTypeToDB(type: string) {
     this.types.add({'type': type});
     console.log("Neuer Produkttyp " + type + " angelegt.");
+  }
+
+  logout() {
+    console.log("pressed Logout");
+    this.authService.logout();
+    this.navCtrl.setRoot(LoginPage);
   }
 }

@@ -5,6 +5,8 @@ import * as firebase from 'firebase/app';
 
 import { Observable } from 'rxjs/Observable';
 
+import { LoginPage } from '../pages/login/login';
+
 @Injectable()
 export class AuthService {
   user: Observable<firebase.User>;
@@ -39,6 +41,7 @@ export class AuthService {
   }
 
   logout() {
+    console.log("function triggered");
     this.auth
       .auth
       .signOut();
