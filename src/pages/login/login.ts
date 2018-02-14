@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { User } from '../../models/user';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthService } from './../../auth/auth.service';
 import { HomePage } from '../home/home';
 
 /**
@@ -19,10 +19,17 @@ export class LoginPage {
 
   user = {} as User;
 
-  constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private authService: AuthService, public navCtrl: NavController, public navParams: NavParams) {
     console.log('Login Page loading...');
   }
 
+  loginUser(user: User) {
+    if(this.authService.loginUser(user)){
+      this.navCtrl.setRoot(HomePage);
+    }
+  }
+
+  /*
   async loginUser(user: User) {
     try {
       const result = this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
@@ -34,5 +41,5 @@ export class LoginPage {
     } catch(e){
       console.error(e);
     }
-  }
+  }*/
 }

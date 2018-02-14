@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
+import { AngularFirestore, AngularFirestoreCollection} from 'angularfire2/firestore';
 import { AlertController } from 'ionic-angular';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthService } from '../../auth/auth.service';
+import { LoginPage } from '../login/login';
 
 interface Partner {
   companyname: string;
@@ -30,7 +30,7 @@ export class PartnerSite {
   title: string;
   value: number;
 
-  constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
+  constructor(private authService: AuthService, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
     this.partnerCol = this.afs.collection<Partner>('partner');
     this.partners = this.partnerCol.snapshotChanges()
                         .map(actions => {
@@ -44,8 +44,14 @@ export class PartnerSite {
     //const groceryListRef = this.fireStore.collection<Grocery>(`/groceryList`);
   }
 
+  //Do not enter Page if not logged in
+  ionViewCanEnter() {
+    console.log("check if view can be entered");
+    return (this.authService.getUser() != null);
+  }
+
   ionViewWillLoad() {
-    this.email = this.afAuth.auth.currentUser.email;
+    this.email = this.authService.getUser().email;
     console.log(this.email);
   }
 
@@ -99,4 +105,9 @@ export class PartnerSite {
     this.afs.doc('partner/'+id).delete();
   }
 
+  logout() {
+    console.log("pressed Logout");
+    this.authService.logout();
+    this.navCtrl.setRoot(LoginPage);
+  }
 }

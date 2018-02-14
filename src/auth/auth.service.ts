@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
+import { User } from './../models/user';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -9,7 +10,7 @@ import { LoginPage } from '../pages/login/login';
 
 @Injectable()
 export class AuthService {
-  user: Observable<firebase.User>;
+  private user: any;
 
   constructor(private auth: AngularFireAuth) {
     this.user = auth.authState;
@@ -28,16 +29,21 @@ export class AuthService {
       });    
   }*/
 
-  login(email: string, password: string) {
-    this.auth
-      .auth
-      .signInWithEmailAndPassword(email, password)
-      .then(value => {
-        console.log('Nice, it worked!');
-      })
-      .catch(err => {
-        console.log('Something went wrong:',err.message);
-      });
+  getUser() {
+    return this.auth.auth.currentUser;
+  }
+
+  async loginUser(user: User) {
+    try {
+      const result = this.auth.auth.signInWithEmailAndPassword(user.email, user.password);
+      console.log(result);
+      if(result){
+        return true;
+      }
+    } catch(e){
+      console.error(e);
+      return false;
+    }
   }
 
   logout() {

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
+import { AngularFirestore, AngularFirestoreCollection} from 'angularfire2/firestore';
 import { AlertController } from 'ionic-angular';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthService } from '../../auth/auth.service';
+import { LoginPage } from '../login/login';
 
 interface Product {
   manufacturer: string;
@@ -28,7 +28,7 @@ export class CoffeeSite {
   title: string;
   value: number;
 
-  constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
+  constructor(private authService: AuthService, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
     this.coffeeCol = this.afs.collection<Product>('products', ref => ref.where('type', '==', 'COFFEE'));
     this.coffees = this.coffeeCol.snapshotChanges()
                         .map(actions => {
@@ -41,8 +41,14 @@ export class CoffeeSite {
     //const groceryListRef = this.fireStore.collection<Grocery>(`/groceryList`);
   }
 
+  //Do not enter Page if not logged in
+  ionViewCanEnter() {
+    console.log("check if view can be entered");
+    return (this.authService.getUser() != null);
+  }
+
   ionViewWillLoad() {
-    this.email = this.afAuth.auth.currentUser.email;
+    this.email = this.authService.getUser().email;
     console.log(this.email);
   }
 
@@ -85,6 +91,12 @@ export class CoffeeSite {
 
   deleteEntry(id) {
     this.afs.doc('coffee/'+id).delete();
+  }
+
+  logout() {
+    console.log("pressed Logout");
+    this.authService.logout();
+    this.navCtrl.setRoot(LoginPage);
   }
 
 }

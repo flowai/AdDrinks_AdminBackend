@@ -4,10 +4,11 @@ import { BeansSite } from '../beans/beans';
 import { CapsSite } from '../caps/caps';
 import { CoffeeSite } from '../coffee/coffee';
 import { PadsSite } from '../pads/pads';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { PartnerSite } from '../partner/partner';
 import { NewEntrySite } from '../newentry/newentry';
 import { TypesSite } from '../types/types';
+import { AuthService } from '../../auth/auth.service';
+import { LoginPage } from '../login/login';
 
 @Component({
   selector: 'page-home',
@@ -17,25 +18,22 @@ export class HomePage {
 
   email: string;
 
-  constructor(private afAuth: AngularFireAuth, private toast: ToastController, public navCtrl: NavController) {
+  constructor(private authService: AuthService, private toast: ToastController, public navCtrl: NavController) {
 
   }
 
+  //Do not enter Page if not logged in
+  ionViewCanEnter() {
+     console.log("check if view can be entered");
+     return (this.authService.getUser() != null);
+  }
+
   ionViewWillLoad() {
-    this.afAuth.authState.subscribe(data => {
-      if(data && data.email && data.uid) {
         this.toast.create({
-          message: 'Welcome to APP_NAME, ${data.email}',
+          message: 'Welcome to AdDrinks Adminpanel.',
           duration: 3000
         }).present();
-        this.getEmail(data.email);
-      } else {
-        this.toast.create({
-          message: 'Could not find Authentification Details',
-          duration: 3000
-        }).present();
-      }
-    });
+        this.getEmail(this.authService.getUser().email);
   }
 
   clickBeans(event) {
@@ -69,6 +67,12 @@ export class HomePage {
   getEmail(email) {
     console.log("User is: "+ email);
     this.email = email;
+  }
+
+  logout() {
+    console.log("pressed Logout");
+    this.authService.logout();
+    this.navCtrl.setRoot(LoginPage);
   }
 
 }

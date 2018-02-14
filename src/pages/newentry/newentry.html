@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-title>NEUER EINTRAG</ion-title>
     <ion-buttons start>
-      <button  ion-button id="user" outline>
+      <button  ion-button id="user" (click)="logout()" outline>
         {{email}}
       </button>
     </ion-buttons>

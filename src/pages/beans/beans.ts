@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
+import { AngularFirestore, AngularFirestoreCollection} from 'angularfire2/firestore';
 import { AlertController } from 'ionic-angular';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { LoginPage } from '../login/login';
+import { AuthService } from '../../auth/auth.service';
 
 interface Product {
   manufacturer: string;
@@ -28,7 +28,7 @@ export class BeansSite {
   title: string;
   value: number;
 
-  constructor(private afAuth: AngularFireAuth, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
+  constructor(private authService: AuthService, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
     this.beansCol = this.afs.collection<Product>('products', ref => ref.where('type', '==', 'BEANS'));
     this.beans = this.beansCol.snapshotChanges()
                         .map(actions => {
@@ -41,8 +41,14 @@ export class BeansSite {
                           })
   }
 
+  //Do not enter Page if not logged in
+  ionViewCanEnter() {
+    console.log("check if view can be entered");
+    return (this.authService.getUser() != null);
+  }
+
   ionViewWillLoad() {
-    this.email = this.afAuth.auth.currentUser.email;
+    this.email = this.authService.getUser().email;
     console.log(this.email);
   }
 
@@ -86,6 +92,12 @@ export class BeansSite {
 
   deleteEntry(id) {
     this.afs.doc('beans/'+id).delete();
+  }
+
+  logout() {
+    console.log("pressed Logout");
+    this.authService.logout();
+    this.navCtrl.setRoot(LoginPage);
   }
 
 }
