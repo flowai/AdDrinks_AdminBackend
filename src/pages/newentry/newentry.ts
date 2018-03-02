@@ -4,6 +4,8 @@ import { AngularFirestore, AngularFirestoreCollection} from 'angularfire2/firest
 import { AlertController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { AuthService } from '../../auth/auth.service';
+import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { valueNewEntryValidator } from '../../validators/valueNewEntryValidator';
 
 interface Manufacturer {
     companyname: string;
@@ -35,6 +37,7 @@ interface Type {
   templateUrl: 'newentry.html'
 })
 export class NewEntrySite {
+  newEntryForm: FormGroup;
 
   email: string;
   newEntry = {} as Product;
@@ -50,7 +53,7 @@ export class NewEntrySite {
   title: string;
   value: number;
 
-  constructor(private authService: AuthService, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
+  constructor(private authService: AuthService, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController, public formBuilder: FormBuilder) {
     this.manu = this.afs.collection<Manufacturer>('partner');
     this.ref = this.manu.snapshotChanges()
                         .map(actions => {
@@ -61,7 +64,13 @@ export class NewEntrySite {
                           })
                         })
     this.loadProductTypes();
-
+    
+    //Create Validators
+    this.newEntryForm = formBuilder.group({
+      title: ['', Validators.compose([Validators.maxLength(20), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+      value: ['', Validators.compose([Validators.maxLength(5), valueNewEntryValidator.isValid, Validators.required])],
+      src: ['', Validators.compose([, Validators.required])]
+  });
   }
 
   //Do not enter Page if not logged in

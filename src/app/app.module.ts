@@ -21,6 +21,7 @@ import { LoginPage } from '../pages/login/login';
 
 import { AuthService } from '../auth/auth.service';
 import { PartnerSite } from '../pages/partner/partner';
+import { InputValidator } from '../validators/inputValidator';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { PartnerSite } from '../pages/partner/partner';
     LoginPage
   ],
   providers: [
+    InputValidator,
     AuthService,
     StatusBar,
     SplashScreen,

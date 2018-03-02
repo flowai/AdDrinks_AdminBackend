@@ -21,19 +21,20 @@
         <ion-select [(ngModel)]="newEntry.type" (ionChange)="changedValueProduct()" okText="Auswahl" cancelText="Abbruch">
           <ion-option *ngFor="let pt of productTypeValues | async" [value]="pt.data.type">{{pt.data.type}}</ion-option>
         </ion-select> 
-      </ion-item>     
+      </ion-item>   
+      <form [formGroup]="newEntryForm">  
   <ion-item>
     <ion-label fixed>Produktname</ion-label>
-    <ion-input type="text" [(ngModel)]="newEntry.title"></ion-input>
+    <ion-input type="text" formControlName="title" ></ion-input>
   </ion-item>
   <ion-item>
     <ion-label fixed>Anzahl auf Lager</ion-label>
-    <ion-input type="text" [(ngModel)]="newEntry.value"></ion-input>
+    <ion-input type="text" formControlName="value" ></ion-input>
   </ion-item>
   <ion-item>
     <ion-label fixed>Link zu Bild</ion-label>
-    <ion-input type="text" [(ngModel)]="newEntry.src"></ion-input>
+    <ion-input type="text" formControlName="src"></ion-input>
   </ion-item>  
-
+  </form>
   <button ion-button (click)="createNewEntry(newEntry)">Neues Produkt anlegen</button>
 </ion-content>

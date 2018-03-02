@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { AlertController } from 'ionic-angular';
 import { AuthService } from './../../auth/auth.service';
 import { LoginPage } from '../login/login';
+import { InputValidator} from '../../validators/inputValidator';
 
 interface Type {
     type: string;
@@ -22,7 +23,7 @@ export class TypesSite {
   title: string;
   value: number;
 
-  constructor(public authService: AuthService, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController) {
+  constructor(public authService: AuthService, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController, private inputValidator: InputValidator) {
     this.types = this.afs.collection<Type>('productTypes');
     this.productTypes = this.types.snapshotChanges()
                         .map(actions => {
@@ -67,8 +68,11 @@ export class TypesSite {
         {
           text: 'Hinzufügen',
           handler: data => {
-            this.addTypeToDB(data.type);
-            console.log("Neuer Produkttyp: "+ data.type.toUpperCase() + " angelegt.");
+            if(this.inputValidator.isValidType(data.type)) {
+              this.addTypeToDB(data.type);
+              console.log("Neuer Produkttyp: "+ data.type.toUpperCase() + " angelegt.");
+            }
+
           }
         }
       ]
