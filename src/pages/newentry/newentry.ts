@@ -6,6 +6,7 @@ import { LoginPage } from '../login/login';
 import { AuthService } from '../../auth/auth.service';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { valueNewEntryValidator } from '../../validators/valueNewEntryValidator';
+import { urlImageValidator } from '../../validators/urlValidator';
 
 interface Manufacturer {
     companyname: string;
@@ -69,7 +70,7 @@ export class NewEntrySite {
     this.newEntryForm = formBuilder.group({
       title: ['', Validators.compose([Validators.maxLength(20), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       value: ['', Validators.compose([Validators.maxLength(5), valueNewEntryValidator.isValid, Validators.required])],
-      src: ['', Validators.compose([, Validators.required])]
+      src: ['', Validators.compose([urlImageValidator.isValid, Validators.required])]
   });
   }
 
@@ -98,8 +99,14 @@ export class NewEntrySite {
   }
 
   createNewEntry(product: Product) {
-    this.products.add(product);
-    console.log('Saved Bean in Firestore: ' + product.title);
+    if(this.newEntryForm.valid){
+      this.products.add(product);
+      console.log('Saved Bean in Firestore: ' + product.title);
+    } else {
+      console.log('Error - wrong entry details');
+      alert('Bitte beachten Sie die rot markierten Eingabefelder.');
+    }
+ 
   }
 
   loadProductTypes() {
