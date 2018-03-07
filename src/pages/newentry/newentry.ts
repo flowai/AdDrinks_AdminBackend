@@ -4,7 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection} from 'angularfire2/firest
 import { AlertController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { AuthService } from '../../auth/auth.service';
-import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { valueNewEntryValidator } from '../../validators/valueNewEntryValidator';
 import { urlImageValidator } from '../../validators/urlValidator';
 
@@ -51,6 +51,9 @@ export class NewEntrySite {
   productTypes: AngularFirestoreCollection<Type>;
   productTypeValues: any;
 
+  typeSet = false;
+  manufacturerSet = false;
+
   title: string;
   value: number;
 
@@ -64,6 +67,7 @@ export class NewEntrySite {
                             return {id, data};
                           })
                         })
+    this.products = this.afs.collection<Product>('products'); 
     this.loadProductTypes();
     
     //Create Validators
@@ -92,14 +96,19 @@ export class NewEntrySite {
     this.newEntry.manufacturerName = this.helperManu.data.companyname;
 
     this.loadProductTypes();
+    this.manufacturerSet = true;
   }
 
   changedValueProduct() {
+    this.typeSet = true;
     console.log("Product: " + this.newEntry.type);
   }
 
   createNewEntry(product: Product) {
-    if(this.newEntryForm.valid){
+    if(this.newEntryForm.valid && this.manufacturerSet == true && this.typeSet == true){
+      product.title = this.newEntryForm.controls.title.value
+      product.value = this.newEntryForm.controls.value.value
+      product.src = this.newEntryForm.controls.src.value
       this.products.add(product);
       console.log('Saved Bean in Firestore: ' + product.title);
     } else {

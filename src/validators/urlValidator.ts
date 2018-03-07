@@ -11,12 +11,12 @@ export class urlImageValidator {
             };
         }
  
-        if(control.value.slice(control.value.length-3, control.value.length) != 'png'
+        /*if(control.value.slice(control.value.length-3, control.value.length) != 'png'
             || control.value.slice(control.value.length-3, control.value.length) != 'jpg'){
             return {
                 "no valid format": true
             };
-        }
+            }*/
  
         return null;
     }
