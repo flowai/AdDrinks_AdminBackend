@@ -6,8 +6,10 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { environment } from '../environments/environment'
 
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -22,6 +24,7 @@ import { LoginPage } from '../pages/login/login';
 import { AuthService } from '../auth/auth.service';
 import { PartnerSite } from '../pages/partner/partner';
 import { InputValidator } from '../validators/inputValidator';
+import { UploadService } from '../provider/UploadService';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,9 @@ import { InputValidator } from '../validators/inputValidator';
     IonicModule.forRoot(MyApp),
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment),
-    AngularFirestoreModule.enablePersistence() //.enablePersistence() used for offline storage
+    AngularFirestoreModule.enablePersistence(), //.enablePersistence() used for offline storage
+    AngularFireStorageModule,
+    AngularFireDatabaseModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -59,6 +64,7 @@ import { InputValidator } from '../validators/inputValidator';
   providers: [
     InputValidator,
     AuthService,
+    UploadService,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

@@ -36,5 +36,10 @@
     <ion-input type="url" formControlName="src"></ion-input>
   </ion-item>  
   </form>
-  <button ion-button (click)="createNewEntry(newEntry)">Neues Produkt anlegen</button>
+  <form>
+  <label ion-label> <input type="file"
+    (change)="selectFile($event)">
+  </label>
+  </form>
+  <button ion-button [disabled]="!selectedFiles" (click)="createNewEntry(newEntry)">Neues Produkt anlegen</button>
 </ion-content>

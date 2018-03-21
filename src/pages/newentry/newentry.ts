@@ -7,6 +7,10 @@ import { AuthService } from '../../auth/auth.service';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { valueNewEntryValidator } from '../../validators/valueNewEntryValidator';
 import { urlImageValidator } from '../../validators/urlValidator';
+import { Upload } from '../../provider/Upload';
+import { UploadService } from '../../provider/UploadService';
+import { LoadingController } from 'ionic-angular';
+import { AngularFireStorage } from 'angularfire2/storage';
 
 interface Manufacturer {
     companyname: string;
@@ -26,6 +30,7 @@ interface Product {
     value: number;
     type: string;
     manufacturerName: string;
+    pic: Upload;
 }
 
 interface Type {
@@ -57,7 +62,12 @@ export class NewEntrySite {
   title: string;
   value: number;
 
-  constructor(private authService: AuthService, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController, public formBuilder: FormBuilder) {
+  //File Upload
+  selectedFiles: FileList
+  currentFileUpload: Upload
+  progress = true;
+
+  constructor(private authService: AuthService, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController, public formBuilder: FormBuilder, private uploadService: UploadService, public loadingCtrl: LoadingController, private afstorage: AngularFireStorage) {
     this.manu = this.afs.collection<Manufacturer>('partner');
     this.ref = this.manu.snapshotChanges()
                         .map(actions => {
@@ -104,13 +114,34 @@ export class NewEntrySite {
     console.log("Product: " + this.newEntry.type);
   }
 
+  /*
+  * Helper for the file Upload
+  */
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+  }
+
   createNewEntry(product: Product) {
     if(this.newEntryForm.valid && this.manufacturerSet == true && this.typeSet == true){
+      let loader = this.loadingCtrl.create({
+        content: "Please wait..."
+      });
+
+      //Put Values to Product interface
       product.title = this.newEntryForm.controls.title.value
       product.value = this.newEntryForm.controls.value.value
       product.src = this.newEntryForm.controls.src.value
-      this.products.add(product);
-      console.log('Saved Bean in Firestore: ' + product.title);
+        //File Upload
+        const file = this.selectedFiles.item(0);
+        const filePath = `productPic/${file.name}`;
+        const task = this.afstorage.upload(filePath, file);
+      loader.present().then(() => {
+        //product.src = task.downloadURL();
+        this.products.add(product);
+        console.log('Saved Bean in Firestore: ' + product.title);
+      });
+      task.percentageChanges();
+      loader.dismiss();
     } else {
       console.log('Error - wrong entry details');
       alert('Bitte beachten Sie die rot markierten Eingabefelder.');
