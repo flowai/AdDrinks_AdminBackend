@@ -6,11 +6,9 @@ import { LoginPage } from '../login/login';
 import { AuthService } from '../../auth/auth.service';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { valueNewEntryValidator } from '../../validators/valueNewEntryValidator';
-import { urlImageValidator } from '../../validators/urlValidator';
 import { Upload } from '../../provider/Upload';
-import { UploadService } from '../../provider/UploadService';
 import { LoadingController } from 'ionic-angular';
-import { AngularFireStorage } from 'angularfire2/storage';
+import * as firebase from 'firebase';
 
 interface Manufacturer {
     companyname: string;
@@ -64,10 +62,10 @@ export class NewEntrySite {
 
   //File Upload
   selectedFiles: FileList
-  currentFileUpload: Upload
-  progress = true;
+  uploadTask: firebase.storage.UploadTask;
 
-  constructor(private authService: AuthService, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController, public formBuilder: FormBuilder, private uploadService: UploadService, public loadingCtrl: LoadingController, private afstorage: AngularFireStorage) {
+
+  constructor(private authService: AuthService, public navCtrl: NavController, private afs: AngularFirestore, public alertCtrl: AlertController, public formBuilder: FormBuilder, public loadingCtrl: LoadingController) {
     this.manu = this.afs.collection<Manufacturer>('partner');
     this.ref = this.manu.snapshotChanges()
                         .map(actions => {
@@ -83,8 +81,8 @@ export class NewEntrySite {
     //Create Validators
     this.newEntryForm = formBuilder.group({
       title: ['', Validators.compose([Validators.maxLength(20), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
-      value: ['', Validators.compose([Validators.maxLength(5), valueNewEntryValidator.isValid, Validators.required])],
-      src: ['', Validators.compose([urlImageValidator.isValid, Validators.required])]
+      value: ['', Validators.compose([Validators.maxLength(5), valueNewEntryValidator.isValid, Validators.required])]
+      //src: ['', Validators.compose([urlImageValidator.isValid, Validators.required])]
   });
   }
 
@@ -130,18 +128,28 @@ export class NewEntrySite {
       //Put Values to Product interface
       product.title = this.newEntryForm.controls.title.value
       product.value = this.newEntryForm.controls.value.value
-      product.src = this.newEntryForm.controls.src.value
+      let prodRef = this.products;
         //File Upload
         const file = this.selectedFiles.item(0);
         const filePath = `productPic/${file.name}`;
-        const task = this.afstorage.upload(filePath, file);
       loader.present().then(() => {
-        //product.src = task.downloadURL();
-        this.products.add(product);
-        console.log('Saved Bean in Firestore: ' + product.title);
+        let storageReference = firebase.storage().ref(filePath);
+        this.uploadTask = storageReference.put(file);
+        this.uploadTask.on('state_changed', function(snapshot) {
+          // progress
+        }, function(error) {
+          console.log(error+error.name);
+        }, function() {
+          storageReference.getDownloadURL().then(url => {
+            product.src = url;
+            prodRef.add(product);
+            loader.dismiss();
+            console.log('Saved Bean in Firestore: ' + product.title);
+          });
+
+        })
       });
-      task.percentageChanges();
-      loader.dismiss();
+      
     } else {
       console.log('Error - wrong entry details');
       alert('Bitte beachten Sie die rot markierten Eingabefelder.');
