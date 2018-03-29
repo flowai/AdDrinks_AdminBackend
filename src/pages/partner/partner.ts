@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection} from 'angularfire2/firest
 import { AlertController } from 'ionic-angular';
 import { AuthService } from '../../auth/auth.service';
 import { LoginPage } from '../login/login';
+import { PartnerNewSite } from './partnernew';
 
 interface Partner {
   companyname: string;
@@ -55,7 +56,8 @@ export class PartnerSite {
     console.log(this.email);
   }
 
-  addEntry(event) {
+  //deprecated - due to new create screen
+  /*addEntry(event) {
     let alert = this.alertCtrl.create({
       title: 'Neuer Eintrag (Partner)',
       inputs: [{
@@ -99,10 +101,14 @@ export class PartnerSite {
   addPost(companyname: string, street: string, number: string, zipcode: number, city: string, logo: string) {
     this.partnerCol.add({'companyname': companyname, 'companyaddress': {'street': street, 'number': number, 'zipcode': zipcode, 'city': city}, 'logo': logo});
     console.log('Saved Partner in Firestore: ' + companyname);
-  }
+  }*/
 
   deleteEntry(id) {
     this.afs.doc('partner/'+id).delete();
+  }
+
+  create() {
+    this.navCtrl.push(PartnerNewSite);
   }
 
   logout() {

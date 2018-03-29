@@ -91,7 +91,7 @@ export class BeansSite {
   }*/
 
   deleteEntry(id) {
-    this.afs.doc('beans/'+id).delete();
+    this.afs.doc('products/'+id).delete();
   }
 
   logout() {

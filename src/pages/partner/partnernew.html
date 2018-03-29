@@ -1,0 +1,41 @@
+<ion-header>
+        <ion-navbar>
+          <ion-title>PARTNER</ion-title>
+        </ion-navbar>
+      </ion-header>
+      
+      <ion-content padding class="partnernew">       
+        <form [formGroup]="partnerNewEntry">  
+            <ion-item>
+              <ion-label fixed>Firmenname</ion-label>
+              <ion-input type="text" formControlName="companyname" ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label fixed>Straße</ion-label>
+              <ion-input type="text" formControlName="street" ></ion-input>
+            </ion-item>
+            <ion-item>
+            <ion-label fixed>Hausnummer</ion-label>
+                <ion-input type="text" formControlName="number" ></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label fixed>Postleitzahl</ion-label>
+                <ion-input type="number" formControlName="zipcode" ></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label fixed>Stadt</ion-label>
+                <ion-input type="text" formControlName="city" ></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label fixed>Website</ion-label>
+                <ion-input type="url" formControlName="website" ></ion-input>
+            </ion-item>
+        </form>
+        <form>
+          <ion-label fixed>PartnerLogo</ion-label>
+          <label ion-label> <input type="file"
+              (change)="selectFile($event)">
+        </label>
+        </form>
+        <button ion-button [disabled]="!selectedFiles" (click)="createPartner(partnerNewEntry)">Neuen Partner anlegen</button>
+    </ion-content>

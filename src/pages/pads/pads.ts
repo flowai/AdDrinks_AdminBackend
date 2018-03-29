@@ -90,7 +90,7 @@ export class PadsSite {
   }*/
 
   deleteEntry(id) {
-    this.afs.doc('pads/'+id).delete();
+    this.afs.doc('products/'+id).delete();
   }
 
   logout() {

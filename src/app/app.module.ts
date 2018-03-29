@@ -25,6 +25,7 @@ import { AuthService } from '../auth/auth.service';
 import { PartnerSite } from '../pages/partner/partner';
 import { InputValidator } from '../validators/inputValidator';
 import { UploadService } from '../provider/UploadService';
+import { PartnerNewSite } from '../pages/partner/partnernew';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { UploadService } from '../provider/UploadService';
     CoffeeSite,
     PadsSite,
     PartnerSite,
+    PartnerNewSite,
     NewEntrySite,
     TypesSite,
     LoginPage
@@ -57,6 +59,7 @@ import { UploadService } from '../provider/UploadService';
     CoffeeSite,
     PadsSite,
     PartnerSite,
+    PartnerNewSite,
     NewEntrySite,
     TypesSite,
     LoginPage

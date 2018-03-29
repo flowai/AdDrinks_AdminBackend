@@ -2,6 +2,9 @@
   <ion-navbar>
     <ion-title>PARTNER</ion-title>
     <ion-buttons start>
+        <button ion-button icon-only outline id="create" (click)="create()">
+            <ion-icon name="create"></ion-icon>
+          </button>
       <button  ion-button id="user" (click)="logout()" outline>
         {{email}}
       </button>
@@ -10,14 +13,14 @@
 </ion-header>
 
 <ion-content class="partner">
-  <ion-fab top right edge>
+  <!-- <ion-fab top right edge>
     <button ion-fab color="vibrant" mini (click)="addEntry($event)"><ion-icon name="add"></ion-icon></button>
-  </ion-fab>
+  </ion-fab> -->
   <ion-list >
     <ion-item-sliding *ngFor="let partner of partners | async">
       <ion-item  >
         <ion-card class="list-item">
-          <img src="{{partner.data.logo}}"/>
+          <img src="{{partner.data.logoref}}"/>
           <ion-card-content>
             <ion-card-title>
               {{partner.data.companyname}}

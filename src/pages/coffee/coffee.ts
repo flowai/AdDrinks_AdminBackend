@@ -90,7 +90,7 @@ export class CoffeeSite {
   }*/
 
   deleteEntry(id) {
-    this.afs.doc('coffee/'+id).delete();
+    this.afs.doc('products/'+id).delete();
   }
 
   logout() {

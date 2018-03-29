@@ -89,7 +89,7 @@ export class CapsSite {
   }*/
 
   deleteEntry(id) {
-    this.afs.doc('caps/'+id).delete();
+    this.afs.doc('products/'+id).delete();
   }
 
   logout() {
